@@ -4,7 +4,7 @@ To configure the backend on your machine:
 
 ### Install project dependencies:
 
-- npm start
+- npm install
 
 ### Settings:
 
@@ -16,6 +16,10 @@ Configure your database
 
 - [1] npx sequelize db:create
 - [2] npx sequelize bd:migrate
+
+### Run project:
+
+- npm start
 
 ## Routes
 
