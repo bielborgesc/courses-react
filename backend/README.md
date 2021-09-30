@@ -16,6 +16,7 @@ Configure your database
 
 - [1] npx sequelize db:create
 - [2] npx sequelize bd:migrate
+- [3] npx sequelize db:seed:all
 
 ### Run project:
 
