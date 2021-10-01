@@ -1,11 +1,20 @@
 const express = require('express')
 const routes = require('./routes');
 
-require('./database')
+const cors = require('cors')
 
+require('./database')
 
 const app = express()
 const port = 3000
+
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,DELETE');
+    app.use(cors());
+    next();
+});
 
 
 app.use(express.json())
