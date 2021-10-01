@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,22 +21,30 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function Login() {
+const Login = props => {
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
   const handleSubmit = async (event) => {
-    const email = "borges.gabriel@aluno.ifsp.edu.br"
-    const password = "gabriel123"
+    // const email = "borges.gabriel@aluno.ifsp.edu.br"
+    // const password = "gabriel123"
     const result = await verifyLoginInApi(email, password)
-    // console.log(result)
+    if(result.status === 200){
+      localStorage.setItem("isAuthenticated",result.data.token)
+      props.history.push("/")
+    }else{
+      alert("Dados incorretos");
+    }
   };
 
   const verifyLoginInApi = async (email, password) => {
     return await axios.post("http://localhost:3000/auth/login",{
-      email: "borges.gabriel@aluno.ifsp.edu.br",
-      password: "gabriel123"
+      email: email,
+      password: password
     })
-    .then(() => console.log("deu certo"))
-    .catch(() => console.log("deu errado"))
+    .then(response => response)
+    .catch(error => error)
   }
 
   return (
@@ -66,6 +74,7 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -76,6 +85,7 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
               fullWidth
@@ -99,3 +109,5 @@ export default function Login() {
     </ThemeProvider>
   );
 }
+
+export default Login
