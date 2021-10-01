@@ -39,16 +39,14 @@ const Cadastro = () =>{
             headers:{
                 'Content-Type': 'application/json',
                 "Access-Control-Allow-Origin": "*",
-                "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNUZWFjaGVyIjp0cnVlLCJpYXQiOjE2MzI5NjQwMjIsImV4cCI6MTYzMzA1MDQyMn0.MqLDnEm9_16vmcQicSsde9nROGviMVyWG-fG7FqgCAE",
-                "Accept": "application/json"
+                "Accept": "application/json;charset=utf-8'"
             }
         }
         return await axios.post("http://localhost:3000/me/teacher/courses/", data, config)
                     .then((res)=>{
-                        console.log(':)');
+                        console.log(res);
                     })
                     .catch((err)=>{
-                        console.log(':(');
                         console.log(err);
                     })
     }
