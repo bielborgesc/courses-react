@@ -1,11 +1,13 @@
 import React from "react";
-import { Route, BrowserRouter } from "react-router-dom";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 import Login from "../App/Login"
 
 const Routes = () => {
     return(
         <BrowserRouter>
-            <Route component = { Login }  path="/login"/>
+            <Switch>
+                <Route component = { Login }  path="/login"/>
+            </Switch>
         </BrowserRouter>
     )
 }

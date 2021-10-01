@@ -3,24 +3,18 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
+      {`Copyright © WORK BREAKDOWN STRUCTURE ${new Date().getFullYear()}.`}
     </Typography>
   );
 }
@@ -28,15 +22,22 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+  const handleSubmit = async (event) => {
+    const email = "borges.gabriel@aluno.ifsp.edu.br"
+    const password = "gabriel123"
+    const result = await verifyLoginInApi(email, password)
+    // console.log(result)
   };
+
+  const verifyLoginInApi = async (email, password) => {
+    return await axios.post("http://localhost:3000/auth/login",{
+      email: "borges.gabriel@aluno.ifsp.edu.br",
+      password: "gabriel123"
+    })
+    .then(() => console.log("deu certo"))
+    .catch(() => console.log("deu errado"))
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -50,18 +51,18 @@ export default function Login() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          </Avatar>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+            </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
@@ -71,32 +72,23 @@ export default function Login() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Senha"
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleSubmit}
             >
-              Sign In
+              Entrar
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"Não tem uma conta?"}
                 </Link>
               </Grid>
             </Grid>
