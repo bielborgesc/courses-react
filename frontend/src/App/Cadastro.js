@@ -8,6 +8,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
+import axios from 'axios';
 
 const theme = createTheme();
 
@@ -26,14 +27,43 @@ const Cadastro = () =>{
             });
         }
     };
-    const handleSubmit = (event) => {
+
+    const sendCourse = async (title, description, image_url, price) => {
+        const data = {
+            title : title,
+            description : description,
+            image_url : image_url,
+            price : price
+        };
+        const config = {
+            headers:{
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+                "Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaXNUZWFjaGVyIjp0cnVlLCJpYXQiOjE2MzI5NjQwMjIsImV4cCI6MTYzMzA1MDQyMn0.MqLDnEm9_16vmcQicSsde9nROGviMVyWG-fG7FqgCAE",
+                "Accept": "application/json"
+            }
+        }
+        return await axios.post("http://localhost:3000/me/teacher/courses/", data, config)
+                    .then((res)=>{
+                        console.log(':)');
+                    })
+                    .catch((err)=>{
+                        console.log(':(');
+                        console.log(err);
+                    })
+    }
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         let name = event.target.querySelector("#name").value;
         let desc = event.target.querySelector("#desc").value;
         let teacher = event.target.querySelector("#teacher").value;
         let price = event.target.querySelector("#price").value;
         let thumbnail = image;
-      };
+        let url = event.target.querySelector("#video").value;
+        const result = await sendCourse(name, desc, price, thumbnail);
+    };
+    
       return(
         <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="xs">
