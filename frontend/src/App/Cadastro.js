@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -6,17 +6,33 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
 
 const theme = createTheme();
 
+const Input = styled('input')({
+    display: 'none',
+  });
+
 const Cadastro = () =>{
+    const [image, setImage] = useState(null);
+
+    const handleImageChange = event =>{
+        if (event.target.files && event.target.files[0]) {
+            let img = event.target.files[0];
+            setImage({
+              image: URL.createObjectURL(img)
+            });
+        }
+    };
     const handleSubmit = (event) => {
         event.preventDefault();
         let name = event.target.querySelector("#name").value;
         let desc = event.target.querySelector("#desc").value;
         let teacher = event.target.querySelector("#teacher").value;
         let price = event.target.querySelector("#price").value;
-        
+        let thumbnail = image;
       };
       return(
         <ThemeProvider theme={theme}>
@@ -33,7 +49,7 @@ const Cadastro = () =>{
             <Typography component="h1" variant="h5">
               Register Course
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -68,6 +84,23 @@ const Cadastro = () =>{
                 id="price"
                 type="number"
             />
+            <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="video"
+                label="Youtube URL"
+                id="video"
+                type="url"
+            />
+             <Stack direction="row" alignItems="center" spacing={2}>
+            <label htmlFor="thumbnail">
+                <Input accept="image/*" id="thumbnail" multiple type="file" onChange={handleImageChange} />
+                <Button variant="contained" component="span">
+                Upload Image
+                </Button>
+            </label>
+            </Stack>
               <Button
                 type="submit"
                 fullWidth
