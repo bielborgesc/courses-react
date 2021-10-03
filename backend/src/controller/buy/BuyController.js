@@ -8,20 +8,20 @@ module.exports = {
         const student_id = req.student_id;
         const {course_id} = req.params;
 
-        const courseBuy = Course.findByPk(course_id);
+        const courseBuy = await Course.findByPk(course_id);
 
         if(!courseBuy){
-            return res.status(405).json({error: 'Course is not exists!'})
+            return res.status(405).json({error: 'Course is not exists!'});
         }
 
-        const user = User.findByPk(student_id);
+        const user = await User.findByPk(student_id);
 
         if(!user){
-            return res.status(405).json({error: 'User problem'})
+            return res.status(405).json({error: 'User problem'});
         }
 
-       await user.addCourse(user);
-
+        await user.addCourse(courseBuy);
+        
         return res.status(200).json(courseBuy);
     }
 

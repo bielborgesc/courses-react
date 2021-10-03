@@ -7,11 +7,9 @@ const authMiddlware = require('../../middlewares/authStudent')
 
 router.use(authMiddlware);
 
-router.get("/", function (req,res) {
-    res.json({message: "Meus cursos"});
-})
+router.get("/courses/", CourseController.findCoursesStudent);
 
-router.get("/courses/:courseId", CourseController.findOneCourseStudent)
-router.get("/courses/:courseId/buy", BuyController.buy)
+router.get("/courses/:course_id", CourseController.findOneCourseStudent)
+router.get("/courses/:course_id/buy", BuyController.buy)
 
 module.exports = router;

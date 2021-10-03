@@ -21,9 +21,9 @@ class User extends Model {
         });
     }      
 
-        static associate(models){
-            this.belongsToMany(models.Course, { foreignKey: 'user_id', through: 'user_courses', as: 'courses'});   
-        }
+    static associate(models){
+        this.belongsToMany(models.Course, { foreignKey: 'user_id', through: 'user_courses', as: 'courses'});   
+    }
 }
 
 module.exports = User;
