@@ -91,7 +91,7 @@ module.exports = {
                 },
                 {
                     association :  'lessons',
-                    attributes : ['title', 'step', 'description'],
+                    attributes : ['id','title', 'step', 'description'],
                     order : 'step'
                 }
             ]

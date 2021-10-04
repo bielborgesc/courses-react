@@ -1,8 +1,43 @@
+const { findOne, associations } = require("../../models/Course");
 const Course = require("../../models/Course");
 const Lesson = require("../../models/Lesson");
+const CourseController = require("../course/CourseController");
 
 module.exports = {
 
+    async findOne(req, res) {
+        const {lesson_id} = req.params;
+        const student_id = req.student_id;
+
+       const lesson = await Lesson.findByPk(lesson_id, {
+           include : [
+               {association : 'course'},
+           ]
+       })
+
+       if(!lesson){
+            return res.status(404).json({message: 'This lesson is not founded!'})
+        }
+        
+        const course = await Course.findByPk(lesson.course_id, {
+            
+            include : [
+                {association: 'users', 
+                    attributes: [],
+                    where: {id :  student_id},
+                },
+            ]
+           
+        });
+
+        if(!course){
+            return res.status(401).json({message:'User does not have access to the course!'});
+        }
+         
+
+        return res.status(200).json(lesson);
+
+    },
 
     async store (req, res) {            
 

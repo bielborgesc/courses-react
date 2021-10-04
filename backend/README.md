@@ -1,4 +1,4 @@
-#Backend
+# Backend
 
 To configure the backend on your machine:
 
@@ -29,25 +29,45 @@ Configure your database
 ### Routes - Auth
 
     - Register
-      /auth/register
+        [POST] /auth/register
 
     - Login
-      /auth/login
+        [POST] /auth/login
 
 ### Routes - Teacher
 
 :warning: headers -> Authorization [token]
 
     - Create Course
-        [post] /me/teacher/courses/
+        [POST] /me/teacher/courses/
 
     - Create Lesson
-        [post] /me/teacher/courses/:course_id/lesson
+        [POST] /me/teacher/courses/:course_id/lesson
+
+    - List Courses
+        [GET] /me/teacher/courses/
+
+### Routes - Student
+
+:warning: headers -> Authorization [token]
+
+    - List courses
+        [GET] /me/student/courses/
+
+    - Buy course
+        [GET] /me/student/courses/buy/:course_id
+
+    - Find one course
+      * Accessing with the token, listing a course, the route shows the url of the videos of each lesson
+        [GET] /me/student/courses/:course_id
+
+    - Access lesson
+        [GET] /me//student/courses/play/:lesson_id
 
 ### Routes main
 
     - List all courses
-      /courses
+        [GET]  /courses
 
     - Find One Course
-      /courses/:course_id
+        [GET]  /courses/:course_id
