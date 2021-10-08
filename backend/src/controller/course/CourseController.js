@@ -1,4 +1,5 @@
-const Course = require("../../models/Course")
+const Course = require("../../models/Course");
+const User = require("../../models/User");
 
 
 module.exports = {
@@ -11,19 +12,56 @@ module.exports = {
     },
     
     async coursesTeacher (req, res) {
-     
+        const teacher_id = req.teacher_id
+        console.log(teacher_id);
+        const courses = await Course.findAll({
+            where : {teacher_id}   
+        })
+        return res.status(200).json(courses);
+    },
+
+    async findCoursesStudent (req, res) {
+        const student_id = req.student_id
+        
+        const courses = await Course.findAll({
+            include: [
+             
+                {association: 'users', 
+                    // Get only name type
+                    attributes: ['id'],
+                    where: {id :  student_id},
+                    // Dont gets data attributes from pivot table (recipe_types)
+                    through: {
+                        attributes : []
+                    }
+
+                }
+            ]
+        })
+
+        if(courses < 1) {
+            return res.status(200).json({message: "User doesn't have any course!"});
+        }
+
+        return res.status(200).json(courses);
+        
     },
 
     async findOneCourseStudent (req, res){
-        const {courseId:id} = req.params;
-       // const student_id = req.student_id
+        
+        const {course_id:id} = req.params;
+        const student_id = req.student_id
 
-        const courses = await Course.findByPk(id, {
+        const course = await Course.findByPk(id, {
             
             include : [
+                {association: 'users', 
+                    attributes: [],
+                    where: {id :  student_id},
+                },
                 {
                     association :  'teacher',
-                    attributes : ['name']
+                    attributes : ['id','name']
                 },
                 {
                     association :  'lessons',
@@ -33,28 +71,38 @@ module.exports = {
             ]
            
         })
-        return res.status(200).json(courses);
+
+        if(!course){
+            return res.status(401).json({message:'User does not have access to the course!'});
+        }
+
+        return res.status(200).json(course);
     },
 
     async findOne (req, res) {
         const {courseId:id} = req.params;
         
-        const courses = await Course.findByPk(id, {
+        const course = await Course.findByPk(id, {
             
             include : [
                 {
                     association :  'teacher',
-                    attributes : ['name']
+                    attributes : ['id','name']
                 },
                 {
                     association :  'lessons',
-                    attributes : ['title', 'step', 'description'],
+                    attributes : ['id','title', 'step', 'description'],
                     order : 'step'
                 }
             ]
            
-        })
-        return res.status(200).json(courses);
+        });
+        
+        if(!course){
+            return res.status(404).json({message:'Course is not founded!'});
+        }
+
+        return res.status(200).json(course);
     },
 
     async listAll (req, res) {
