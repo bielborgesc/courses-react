@@ -1,9 +1,11 @@
 var bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 
-const authCofig = require('../../config/auth.json')
+const authCofig = require('../../config/auth.json');
+const authTeacher = require('../../middlewares/authTeacher');
 
 const User = require("../../models/User");
+authTeacher
 
 function generateToken(params = {}){
     return jwt.sign(params, authCofig.secret, {
