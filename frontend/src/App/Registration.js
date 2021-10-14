@@ -9,6 +9,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
+import Header from  "../Components/Header"
+import Footer from  "../Components/Footer"
 
 const theme = createTheme();
 
@@ -16,7 +18,7 @@ const Input = styled('input')({
     display: 'none',
   });
 
-const Cadastro = () =>{
+const Registration = () =>{
     const [image, setImage] = useState(null);
 
     const handleImageChange = event =>{
@@ -64,6 +66,7 @@ const Cadastro = () =>{
     
       return(
         <ThemeProvider theme={theme}>
+          <Header/>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -75,7 +78,7 @@ const Cadastro = () =>{
             }}
           >
             <Typography component="h1" variant="h5">
-              Register Course
+              Registrar Curso
             </Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -125,7 +128,7 @@ const Cadastro = () =>{
             <label htmlFor="thumbnail">
                 <Input accept="image/*" id="thumbnail" multiple type="file" onChange={handleImageChange} />
                 <Button variant="contained" component="span">
-                Upload Image
+                  Enviar Imagem
                 </Button>
             </label>
             </Stack>
@@ -135,14 +138,15 @@ const Cadastro = () =>{
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Register
+                Registrar
               </Button>
             </Box>
           </Box>
         </Container>
+        <Footer/>
       </ThemeProvider>
       );
     
 }
 
-export default Cadastro;
+export default Registration;

@@ -10,19 +10,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import Footer from '../Components/Footer';
+import Header from  "../Components/Header"
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {`Copyright © Courses ${new Date().getFullYear()}.`}
-    </Typography>
-  );
-}
 
 const theme = createTheme();
 
 const Login = props => {
-
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -51,6 +45,7 @@ const Login = props => {
 
   return (
     <ThemeProvider theme={theme}>
+      <Header/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -105,6 +100,7 @@ const Login = props => {
               </Grid>
             </Grid>
           </Box>
+          <Footer size="20vh"/>
         </Box>
       </Container>
     </ThemeProvider>

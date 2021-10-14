@@ -1,17 +1,30 @@
 import React from 'react';
-import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 const Footer = (props) => {
     return (
-      <Typography variant="body2" color="text.secondary" align="center" {...props}>
-        {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
-          Your Website
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
+      <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: props.size,
+      }}>
+      <Box
+        component="footer"
+        sx={{
+          py: 3,
+          px: 2,
+          mt: 'auto',
+        }}>
+        <Container maxWidth="sm">
+          <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {`Copyright © Courses ${new Date().getFullYear()}.`}
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
     );
 }
 
