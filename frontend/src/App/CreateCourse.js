@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,9 +8,10 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
-import axios from 'axios';
 import Header from  "../Components/Header"
 import Footer from  "../Components/Footer"
+
+import api from "../services/api";
 
 const theme = createTheme();
 
@@ -18,17 +19,21 @@ const Input = styled('input')({
     display: 'none',
   });
 
-const Registration = () =>{
-    const [image, setImage] = useState(null);
+const CreateCourse = props =>{       
 
-    const handleImageChange = event =>{
-        if (event.target.files && event.target.files[0]) {
-            let img = event.target.files[0];
-            setImage({
-              image: URL.createObjectURL(img)
-            });
-        }
-    };
+    const handleGetValidate = async () => {
+      try {
+        const response = await api.get("/me/teacher");
+        
+      }catch(err){
+        props.history.push("/");
+      }
+    }
+  
+    useEffect(() => {
+      handleGetValidate();
+    },[])
+
 
     const sendCourse = async (title, description, image_url, price) => {
         const data = {
@@ -37,34 +42,35 @@ const Registration = () =>{
             image_url : image_url,
             price : price
         };
+
         const config = {
-            headers:{
-                'Content-Type': 'application/json',
-                "Access-Control-Allow-Origin": "*",
-                "Accept": "application/json;charset=utf-8'"
-            }
+          headers : {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin": "*",
+            'Authorization': 'Bearer ' + localStorage.getItem('isAuthenticated')
+          }
         }
-        return await axios.post("http://localhost:3000/me/teacher/courses/", data, config)
-                    .then((res)=>{
-                        console.log(res);
+        
+        return await api.post("/me/teacher/courses/", data)
+                    .then((res) => {
+                      props.history.push(`/new-lesson/${res.data.id}` );
+                     // console.log("RESPONSE RECEIVED: ", res);
                     })
-                    .catch((err)=>{
-                        console.log(err);
+                    .catch((err) => {
+                      console.log("AXIOS ERROR: ", err);
                     })
-    }
+     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         let name = event.target.querySelector("#name").value;
         let desc = event.target.querySelector("#desc").value;
-        let teacher = event.target.querySelector("#teacher").value;
         let price = event.target.querySelector("#price").value;
-        let thumbnail = image;
-        let url = event.target.querySelector("#video").value;
-        const result = await sendCourse(name, desc, price, thumbnail);
+        let thumbnail = event.target.querySelector("#imageUrl").value;
+        const result = await sendCourse(name, desc, thumbnail, price);
     };
     
-      return(
+    return(
         <ThemeProvider theme={theme}>
           <Header/>
         <Container component="main" maxWidth="xs">
@@ -98,14 +104,7 @@ const Registration = () =>{
                 label="Description"
                 id="desc"
               />
-                <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="teacher"
-                    label="Teacher"
-                    id="teacher"
-                />
+            
             <TextField
                 margin="normal"
                 required
@@ -113,24 +112,19 @@ const Registration = () =>{
                 name="price"
                 label="Price"
                 id="price"
-                type="number"
+                type="decimal"
             />
             <TextField
                 margin="normal"
                 required
                 fullWidth
                 name="video"
-                label="Youtube URL"
-                id="video"
+                label="Image Url"
+                id="imageUrl"
                 type="url"
             />
              <Stack direction="row" alignItems="center" spacing={2}>
-            <label htmlFor="thumbnail">
-                <Input accept="image/*" id="thumbnail" multiple type="file" onChange={handleImageChange} />
-                <Button variant="contained" component="span">
-                  Enviar Imagem
-                </Button>
-            </label>
+            
             </Stack>
               <Button
                 type="submit"
@@ -149,4 +143,4 @@ const Registration = () =>{
     
 }
 
-export default Registration;
+export default CreateCourse;

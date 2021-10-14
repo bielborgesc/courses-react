@@ -13,6 +13,9 @@ import axios from 'axios';
 import Footer from '../Components/Footer';
 import Header from  "../Components/Header"
 
+import api from "../services/api";
+import { login, getToken } from "../services/auth";
+
 
 const theme = createTheme();
 
@@ -27,7 +30,8 @@ const Login = props => {
     }
     const result = await verifyLoginInApi(email, password)
     if(result.status === 200){
-      localStorage.setItem("isAuthenticated",result.data.token)
+      login(result.data.token)
+      //console.log(getToken())
       props.history.push("/")
     }else{
       alert("Dados incorretos");

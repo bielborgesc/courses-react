@@ -14,6 +14,7 @@ router.get("/me", function (req,res) {
 
 router.post("/auth/register", UserController.register)
 router.post("/auth/login", UserController.login)
+router.get("/auth/validate", UserController.isTeacher);
 
 //router.get("/admin/users", UserController.listAll)
 

@@ -21,6 +21,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useHistory } from "react-router-dom";
 
+import {logout as logoutAPI} from '../services/auth';
+
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -133,6 +136,12 @@ const PrimarySearchAppBar = (props) => {
     history.push({pathname: `/login`});    
   }
 
+  const handleLogout = () =>{
+    handleMenuClose()
+    logoutAPI();
+        
+  }
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -162,7 +171,7 @@ const PrimarySearchAppBar = (props) => {
       
       {isAuth ? 
         <MenuItem onClick={handleMenuClose}>Meus Cursos</MenuItem> &&
-        <MenuItem onClick={handleMenuClose}>Sair</MenuItem> :
+        <MenuItem onClick={handleLogout}>Sair</MenuItem> :
         <MenuItem onClick={handleLogin}>Login</MenuItem> }
     </Menu>
   );
