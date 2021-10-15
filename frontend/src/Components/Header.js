@@ -11,16 +11,18 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from '@mui/material/Link';
+import MoreIcon from '@mui/icons-material/MoreVert';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useHistory } from "react-router-dom";
-
+import {useEffect } from 'react';
+import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
+import PlusOneIcon from '@mui/icons-material/PlusOne';
+import api from "../services/api"
 import {logout as logoutAPI} from '../services/auth';
 
 
@@ -65,6 +67,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const TemporaryDrawer = () => {
   const [state, setState] = React.useState({left: false});
+  const [isTeacher, setIsTeacher] = React.useState(null)
+
+  useEffect(() => {
+    (async () => {
+      let response = await api.get("/me/teacher");
+      setIsTeacher(response.status)
+    })()
+  }, [])
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -82,12 +92,36 @@ const TemporaryDrawer = () => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
+      {isTeacher !== 200 ? 
+      <Link href="/dashboard-student" color="inherit" underline="none">
         <ListItem button>
           <ListItemIcon>
-            <MailIcon />
+            <LaptopChromebookIcon />
           </ListItemIcon>
-          <ListItemText primary={"Algo"} />
+          <ListItemText primary={"Meus Cursos"} />
         </ListItem>
+      </Link> :
+      <Link href="/dashboard-teacher" color="inherit" underline="none">
+        <ListItem button>
+          <ListItemIcon>
+            <LaptopChromebookIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Meus Cursos"} />
+        </ListItem>
+      </Link>
+      }
+      
+        {isTeacher !== 200 ? 
+        false :
+        <Link href="/new-course" color="inherit" underline="none">
+          <ListItem button>
+            <ListItemIcon>
+              <PlusOneIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Cadastrar Curso"} />
+          </ListItem>
+        </Link>
+        }
       </List>
     </Box>
   );
@@ -139,6 +173,7 @@ const PrimarySearchAppBar = (props) => {
   const handleLogout = () =>{
     handleMenuClose()
     logoutAPI();
+    history.push("/login")
         
   }
 
@@ -245,7 +280,7 @@ const PrimarySearchAppBar = (props) => {
             />
           </Search>}
           <Box sx={{ flexGrow: 1 }} />
-          {history.location.pathname != "/" ? 
+          {history.location.pathname === "/login" || history.location.pathname === "/create-login"? 
           false : 
             <Box>
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

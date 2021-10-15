@@ -6,6 +6,7 @@ import Courses from "../App/Courses";
 import ProtectedRoute from "./ProtectedRoute";
 import CreateCourse from "../App/CreateCourse";
 import CreateLesson from "../App/CreateLesson";
+import DashboardTeacher from "../App/DashboardTeacher";
 
 const Routes = () => {
     return(
@@ -14,6 +15,8 @@ const Routes = () => {
                 <Route component = { Courses }  path="/" exact/>
                 <ProtectedRoute component = { CreateCourse }  path="/new-course"/>
                 <ProtectedRoute component = { CreateLesson }  path="/new-lesson/:idCourse"/>
+                {/* <ProtectedRoute component = {  }  path="/dashboard-student"/> */}
+                <ProtectedRoute component = { DashboardTeacher }  path="/dashboard-teacher"/>
                 <Route component = { Login }  path="/login"/>
                 <Route component = { Register }  path="/create-login"/>
             </Switch>
