@@ -6,9 +6,31 @@ module.exports = {
 
 
     async update(req, res) {
+        const {courseId} = req.params;        
+        const teacher_id = req.teacher_id
+     
+        const { title, description, image_url, price} = req.body
+
+        const course = await Course.findByPk(courseId);
+
+        if(!course) {
+            res.status(404).json({message : 'Course not founded!'})
+        }
+        
+        if(course.teacher_id !== teacher_id){
+            res.status(401).json({message : 'Access Denied!'})
+        }
+        
+        const courseUpdated = await course.update({
+                title, description, image_url, price
+            }
+        ) 
+    
+        return res.status(200).json(courseUpdated);
     },
 
     async remove(req, res) {
+
     },
     
     async coursesTeacher (req, res) {

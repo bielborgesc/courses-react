@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from  "../Components/Header"
 import Footer from  "../Components/Footer"
 import api from "../services/api";
+import Link from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,6 +15,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import CreateIcon from '@mui/icons-material/Create';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const theme = createTheme();
 
@@ -37,20 +42,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
 const DashboardTeacher = props =>{    
-    
+  const [courses, setCourses] = useState([])
+
+  const handleGetCourse = async () => {
+    try {
+      const response = await api.get("/me/teacher/courses/")
+      setCourses(response.data)
+      console.log(courses)
+      
+    }catch(err){
+      props.history.push("/");
+    }
+  }
+  
+  useEffect(() => {
+    handleGetCourse();
+  },[])
+
     return(
         <ThemeProvider theme={theme}>
           <Header/>
@@ -69,24 +79,37 @@ const DashboardTeacher = props =>{
                 <TableHead>
                   <TableRow>
                     <StyledTableCell>Titulo</StyledTableCell>
-                    <StyledTableCell align="right">Preço</StyledTableCell>
-                    <StyledTableCell align="right">Adicionar Aula</StyledTableCell>
-                    <StyledTableCell align="right">Editar</StyledTableCell>
-                    <StyledTableCell align="right">Excluir</StyledTableCell>
+                    <StyledTableCell align="center">Preço</StyledTableCell>
+                    <StyledTableCell align="center">Adicionar Aula</StyledTableCell>
+                    <StyledTableCell align="center">Editar</StyledTableCell>
+                    <StyledTableCell align="center">Excluir</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
-                    <StyledTableRow key={row.name}>
+                {courses.map((course) => (
+                 
+                    <StyledTableRow key={course.id}>
                       <StyledTableCell component="th" scope="row">
-                        {row.name}
+                        {course.title}
                       </StyledTableCell>
-                      <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                      <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                      <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                      <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                      <StyledTableCell align="center">{"R$ " + course.price}</StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Link href={"/new-lesson/" + course.id} variant="body2">
+                          <AddBoxIcon/>
+                        </Link>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                       <Link href={"course/" + course.id + "/edit"} variant="body2">
+                          <CreateIcon/>
+                        </Link>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Link href={"course/" + course.id + "/remove"} variant="body2">
+                          <DeleteForeverIcon/>
+                        </Link>
+                      </StyledTableCell>
                     </StyledTableRow>
-                  ))}
+                  ))}                  
                 </TableBody>
               </Table>
             </TableContainer>
