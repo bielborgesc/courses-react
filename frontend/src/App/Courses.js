@@ -23,6 +23,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
+import api from "../services/api";
 import Header from  "../Components/Header"
 import Footer from  "../Components/Footer"
 
@@ -91,10 +92,23 @@ export default function Courses(props) {
       handleClickOpen()
     }
 
-    const handleShop = () =>{
+    const handleShop = (id) =>{
       handleClose()
-      isAuth ? console.log("Você pode comprar") :
+      isAuth ? handlePutCourse(id) :
       history.push({pathname: `/login`});    
+    }
+
+    const handlePutCourse = async (id) => {
+      try {
+        const response = await api.get(`me/student/courses/buy/${id}`)
+        // if(response.status !== 200){
+        //   alert("Você já possui esse curso")
+        // }
+      }catch(err){
+        props.history.push("/dashboard-student");
+      }finally{
+        alert("Você já possui esse curso")
+      }
     }
 
     useEffect(() => {
@@ -147,7 +161,7 @@ export default function Courses(props) {
           </DialogContentText>
           <DialogActions>
             <Button onClick={handleClose}>Voltar</Button>
-            <Button onClick={handleShop}>
+            <Button onClick={() => handleShop(dataDialog.id)}>
               Comprar
             </Button>
           </DialogActions>
@@ -188,7 +202,7 @@ export default function Courses(props) {
                     
                     image={course.image_url}
                     alt="random"
-                  />
+                   style={{height: "170px"}}/>
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {course.title}

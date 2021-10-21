@@ -23,6 +23,7 @@ import {useEffect } from 'react';
 import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook';
 import PlusOneIcon from '@mui/icons-material/PlusOne';
 import api from "../services/api"
+import HomeIcon from '@mui/icons-material/Home';
 import {logout as logoutAPI} from '../services/auth';
 
 
@@ -92,6 +93,14 @@ const TemporaryDrawer = () => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
+      <Link href="/" color="inherit" underline="none">
+        <ListItem button>
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Home"} />
+        </ListItem>
+      </Link>
       {isTeacher !== 200 ? 
       <Link href="/dashboard-student" color="inherit" underline="none">
         <ListItem button>
