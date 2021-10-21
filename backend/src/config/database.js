@@ -3,7 +3,7 @@ module.exports = {
     dialect: 'mysql',
     host: 'localhost',
     username: 'root',
-    password: '@Gabriel05',
+    password: '',
     database: 'courses',
     define: {
         timestamps: true,
