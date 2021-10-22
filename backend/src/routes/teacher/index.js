@@ -16,6 +16,7 @@ router.get("/courses/", CourseController.coursesTeacher);
 
 router.post("/courses/:course_id/lesson", LessonController.store);
 router.put("/courses/:course_id/lesson/:lessonId", LessonController.update);
+router.delete("/courses/:course_id/lesson/:lessonId", LessonController.delete);
 
 router.delete("/courses/:courseId", CourseController.remove);
 router.put("/courses/:courseId", CourseController.update);
