@@ -2,8 +2,6 @@
 
 Projeto implementado na disciplica de GPS - Gestão de projetos de Software.
 
-## :construction: Em desenvolvimento :construction:
-
 ## A ideia
 
 Desenvolver uma aplicação simples, em que, o usuário possa cadastrar cursos com vídeos na plataforma, para serem vendidos
@@ -20,10 +18,10 @@ A proposta de cronograma do outro grupo, foi separar o CRUD da aplicação em qu
             - [x] frontend
     - [] (14/10/2021) - Edição de curso e materiais
             - [x] backend
-            - [ ] frontend
-    - [ ] (21/10/2021) - Exclusão de curso e materiais
-            - [ ] backend
-            - [ ] frontend
+            - [x] frontend
+    - [x] (21/10/2021) - Exclusão de curso e materiais
+            - [x] backend
+            - [x] frontend
 
 ## A aplicação
 
