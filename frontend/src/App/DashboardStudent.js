@@ -114,7 +114,7 @@ const DashboardStudent = props =>{
                     <TableCell align="right">{row.step}</TableCell>
                     <TableCell align="right">{row.title}</TableCell>
                     <TableCell align="right">
-                        <Link href={row.url_video} variant="body2">
+                        <Link to="route" target="_blank"href={row.url_video} variant="body2">
                             <PlayArrowIcon/>
                         </Link>
                     </TableCell>
