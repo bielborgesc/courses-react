@@ -106,8 +106,6 @@ export default function Courses(props) {
         // }
       }catch(err){
         props.history.push("/dashboard-student");
-      }finally{
-        alert("Você já possui esse curso")
       }
     }
 
