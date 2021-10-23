@@ -54,7 +54,14 @@ module.exports = {
         const teacher_id = req.teacher_id
         console.log(teacher_id);
         const courses = await Course.findAll({
-            where : {teacher_id}   
+            where : {teacher_id},
+            include: [ 
+                {
+                    association :  'lessons',
+                    attributes : ['id', 'title', 'step', 'description', 'url_video'],
+                    order : 'step'
+                } 
+            ]  
         })
         return res.status(200).json(courses);
     },
