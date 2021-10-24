@@ -43,6 +43,7 @@ export default function Courses(props) {
     const history = useHistory();
     const [courses, setCourses] = useState([])
     const [inputSearch, setInputSearch] = useState("")
+    const [isTeacher, setIsTeacher] = useState(false)
     const [open, setOpen] = useState(false);
     const [dataDialog, setDataDialog] = useState({length: 0, lessons: []})
     const isAuth = localStorage.getItem("isAuthenticated") ? true : false
@@ -109,8 +110,17 @@ export default function Courses(props) {
       }
     }
 
+    const verifyTeacher = async() =>{
+        let response = await api.get("/me/teacher");
+        if(response.status === 200){
+          setIsTeacher(true)
+        }
+       
+    }
+    
     useEffect(() => {
-        handleGetCourses();
+      verifyTeacher();  
+      handleGetCourses();
     },[])
 
   return (
@@ -159,9 +169,12 @@ export default function Courses(props) {
           </DialogContentText>
           <DialogActions>
             <Button onClick={handleClose}>Voltar</Button>
+            {!isTeacher ?
             <Button onClick={() => handleShop(dataDialog.id)}>
               Comprar
             </Button>
+            : false
+            }
           </DialogActions>
         </Dialog>
         </div>
@@ -213,7 +226,7 @@ export default function Courses(props) {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" onClick={handleOpenCourse} id={course.id}>View</Button>
+                    <Button size="small" onClick={handleOpenCourse} id={course.id}>Visualizar</Button>
                   </CardActions>
                 </Card>
               </Grid>

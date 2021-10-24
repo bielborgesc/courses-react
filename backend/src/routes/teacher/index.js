@@ -19,6 +19,7 @@ router.put("/courses/:course_id/lesson/:lessonId", LessonController.update);
 
 router.delete("/courses/:course_id/lesson/:lessonId", LessonController.delete);
 
+router.get("/courses/:courseId", CourseController.findOneCourseTeacher);
 router.delete("/courses/:courseId", CourseController.remove);
 router.put("/courses/:courseId", CourseController.update);
 

@@ -63,7 +63,7 @@ const CreateLesson = props =>{
 
         return await api.post(`/me/teacher/courses/${idCourse}/lesson`, data)
                     .then((res) => {
-                      props.history.push(`/new-lesson/${idCourse}`);
+                      props.history.push(`/dashboard-teacher`);
                       console.log("RESPONSE RECEIVED: ", res);
                     })
                     .catch((err) => {

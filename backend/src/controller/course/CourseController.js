@@ -151,6 +151,32 @@ module.exports = {
         return res.status(200).json(course);
     },
 
+    async findOneCourseTeacher (req, res) {
+        const {courseId:id} = req.params;
+        
+        const course = await Course.findByPk(id, {
+            
+            include : [
+                {
+                    association :  'teacher',
+                    attributes : ['id','name']
+                },
+                {
+                    association :  'lessons',
+                    attributes : ['id','title', 'step', 'description', 'url_video'],
+                    order : 'step'
+                }
+            ]
+           
+        });
+        
+        if(!course){
+            return res.status(404).json({message:'Course is not founded!'});
+        }
+
+        return res.status(200).json(course);
+    },
+
     async listAll (req, res) {
         const courses = await Course.findAll({
             include : [
@@ -163,6 +189,7 @@ module.exports = {
         })
         return res.status(200).json(courses);
     },
+
    
     async store(req, res) {
 

@@ -17,7 +17,7 @@ const Routes = () => {
                 <ProtectedRoute component = { CreateCourse }  path="/new-course"/>
                 <ProtectedRoute component = { CreateLesson }  path="/new-lesson/:idCourse"/>
                 <ProtectedRoute component = { DashboardStudent }  path="/dashboard-student"/>
-                <ProtectedRoute component = { DashboardTeacher }  path="/dashboard-teacher"/>
+                <ProtectedRoute component = { DashboardTeacher }  path="/dashboard-teacher/"/>
                 <Route component = { Login }  path="/login"/>
                 <Route component = { Register }  path="/create-login"/>
             </Switch>
