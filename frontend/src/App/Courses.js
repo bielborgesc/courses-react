@@ -57,7 +57,7 @@ export default function Courses(props) {
     };
 
     const getCourses = async () => {
-        return await axios.get("http://localhost:3000/courses",{
+        return await axios.get("https://backendcourse.clicoufacil.com/courses",{
 
         })
         .then(response => response)
@@ -65,7 +65,7 @@ export default function Courses(props) {
     }
 
     const getCourse = async (id) => {
-      return await axios.get(`http://localhost:3000/courses/${id}`,{
+      return await axios.get(`https://backendcourse.clicoufacil.com/courses/${id}`,{
 
       })
       .then(response => response)

@@ -39,7 +39,7 @@ const Login = props => {
   };
 
   const verifyLoginInApi = async (email, password) => {
-    return await axios.post("http://localhost:3000/auth/login",{
+    return await axios.post("https://backendcourse.clicoufacil.com/auth/login",{
       email: email,
       password: password
     })
